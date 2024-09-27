@@ -6,5 +6,7 @@ run:
 
 lint:
 	gradle checkstyleMain
+lint-test:
+	gradler checkstyleTest
 
 .PHONY: build
