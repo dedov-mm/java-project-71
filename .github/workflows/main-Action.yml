@@ -8,5 +8,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: echo "Start build and lint project"
-      - run: cd app/ && ls -la && make lint
-
+      - run: cd app/ && ls -la
+      - run: cd app/ && make lint
