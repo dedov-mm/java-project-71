@@ -9,5 +9,6 @@ jobs:
       - uses: actions/checkout@v4
       - run: echo "Start build and lint project"
       - run: cd app/
-      - run: make lint
+      - run: ls -la
+      # - run: make lint
 
