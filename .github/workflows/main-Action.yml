@@ -3,12 +3,10 @@ name: main-Action
 on: [push]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: echo "Start build and lint project"
-      - run: cd app/
-      - run: ls -la
-      # - run: make lint
+      - run: cd app/ && ls -la && make lint
 
