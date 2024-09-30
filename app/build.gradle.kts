@@ -25,3 +25,14 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+jacoco {
+    toolVersion = "0.8.7" // Убедитесь, что используете актуальную версию
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)  // Генерируем XML-отчет
+        html.required.set(true)  // Генерируем HTML-отчет (опционально)
+    }
+}
