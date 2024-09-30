@@ -22,25 +22,23 @@ jobs:
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
-      - run: pwd
-      - run: ls -la ${{ github.workspace }}/app
       # Шаг: Проверка содержимого директории app
-      - run: ls -la ./app
+      - run: ls -la ${{ github.workspace }}/app
         working-directory: ./app
 
       # Шаг: Запуск проверки Checkstyle
       - name: Run Checkstyle
-        run: ./gradlew checkstyleMain
+        run: ls -la ${{ github.workspace }}/app/gradlew checkstyleMain
         working-directory: ./app
 
       # Шаг: Запуск тестов
       - name: Run Tests
-        run: ./gradlew test
+        run: ls -la ${{ github.workspace }}/app/gradlew test
         working-directory: ./app
 
       # Шаг: Генерация отчета Jacoco
       - name: Generate Jacoco Report
-        run: ./gradlew jacocoTestReport
+        run: ls -la ${{ github.workspace }}/app/gradlew jacocoTestReport
         working-directory: ./app
 
       # Шаг: Публикация отчета покрытия кода
