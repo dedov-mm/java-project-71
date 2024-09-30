@@ -28,12 +28,12 @@ jobs:
 
       # Шаг: Запуск проверки Checkstyle
       - name: Run Checkstyle
-        run: ls -la ${{ github.workspace }}/app/gradlew checkstyleMain
+        run: ${{ github.workspace }}/app/gradlew checkstyleMain
         working-directory: ./app
 
       # Шаг: Запуск тестов
       - name: Run Tests
-        run: ls -la ${{ github.workspace }}/app/gradlew test
+        run: ${{ github.workspace }}/app/gradlew test
         working-directory: ./app
 
       # Шаг: Генерация отчета Jacoco
