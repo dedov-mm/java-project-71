@@ -20,6 +20,9 @@ jobs:
       - run: cd ./app && ls -la
       - run: cd ./app && ./gradlew checkstyleMain
       - run: cd ./app && ./gradlew test
+      - name: Run Jacoco Test Report
+        run: ./gradlew jacocoTestReport
+        working-directory: ./app
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v9.0.0
         env:
