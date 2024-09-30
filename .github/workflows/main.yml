@@ -24,7 +24,7 @@ jobs:
           gradle-version: 8.7
       # Шаг: Проверка содержимого директории app
       - run: ls -la
-        working-directory: ${{ github.workspace }}/app
+        working-directory: ./app
 
       # Шаг: Запуск проверки Checkstyle
       - name: Run Checkstyle
@@ -38,7 +38,7 @@ jobs:
 
       # Шаг: Генерация отчета Jacoco
       - name: Generate Jacoco Report
-        run: ls -la ${{ github.workspace }}/app/gradlew jacocoTestReport
+        run: ${{ github.workspace }}/app/gradlew jacocoTestReport
         working-directory: ./app
 
       # Шаг: Публикация отчета покрытия кода
