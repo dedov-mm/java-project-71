@@ -22,7 +22,7 @@ jobs:
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
-      
+      - run: ls -la
       # Шаг: Проверка содержимого директории app
       - run: ls -la ./app
         working-directory: ./app
