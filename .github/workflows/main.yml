@@ -43,7 +43,7 @@ jobs:
 
       # Шаг: Проверка наличия отчета Jacoco
       - name: Check for Jacoco report
-        run: ls -la build/reports/jacoco/test/
+        run: ls -la build/reports/jacoco/test/html
         working-directory: ./app
 
       - name: Run Tests with verbose output
