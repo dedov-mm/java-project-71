@@ -29,6 +29,7 @@ jobs:
       # Шаг: Запуск проверки Checkstyle
       - name: Run Checkstyle
         run: ${{ github.workspace }}/app/gradlew checkstyleMain
+        working-directory: ./app
 
       # Шаг: Запуск тестов
       - name: Run Tests
