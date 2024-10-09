@@ -9,48 +9,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Шаг: Клонирование репозитория
       - uses: actions/checkout@v4
       
-      # Шаг: Установка Java 21
       - uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
       
-      # Шаг: Установка версии Gradle
       - uses: gradle/gradle-build-action@v3
         with:
           gradle-version: 8.7
-      # Шаг: Проверка содержимого директории app
       - run: ls -la
         working-directory: ./app
 
-      # Шаг: Запуск проверки Checkstyle
       - name: Run Checkstyle
         run: ${{ github.workspace }}/app/gradlew checkstyleMain
         working-directory: ./app
 
-      # Шаг: Запуск тестов
       - name: Run Tests
         run: ${{ github.workspace }}/app/gradlew test
         working-directory: ./app
 
-      # Шаг: Генерация отчета Jacoco
-      - name: Generate Jacoco Report
-        run: ${{ github.workspace }}/app/gradlew jacocoTestReport
-        working-directory: ./app
-
-      # Шаг: Проверка наличия отчета Jacoco
-      - name: Check for Jacoco report
-        run: ls -la build/reports/jacoco/test/html
-        working-directory: ./app
-
-      - name: Run Tests with verbose output
-        run: ./gradlew test --info
-        working-directory: ./app
-      
-      # Шаг: Публикация отчета покрытия кода
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v9.0.0
         env:
@@ -58,5 +37,5 @@ jobs:
           JACOCO_SOURCE_PATH: ${{github.workspace}}/app/src/main/java
         with:
           coverageCommand: ./gradlew jacocoTestReport
-          coverageLocations: build/reports/jacoco/test/html/index.html:jacoco
+          coverageLocations: build/reports/jacoco/test/jacocoTestReport.xml:jacoco
           workingDirectory: ./app
