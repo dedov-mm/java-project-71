@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -16,11 +17,9 @@ public class Differ {
             throw new IOException("Files do not exist");
         }
 
-        ObjectMapper mapper1 = getMapperByFileExtension(path1);
-        ObjectMapper mapper2 = getMapperByFileExtension(path2);
+        Map<String, Object> map1 = Parser.parse(path1);
+        Map<String, Object> map2 = Parser.parse(path2);
 
-        Map<String, Object> map1 = mapper1.readValue(Files.newInputStream(path1), Map.class);
-        Map<String, Object> map2 = mapper2.readValue(Files.newInputStream(path2), Map.class);
         Set<String> allKeys = new TreeSet<>();
         allKeys.addAll(map1.keySet());
         allKeys.addAll(map2.keySet());
@@ -43,17 +42,5 @@ public class Differ {
         }
         result.append("}");
         return result.toString();
-    }
-
-    private static ObjectMapper getMapperByFileExtension(Path path) throws IllegalArgumentException {
-        String fileName = path.getFileName().toString().toLowerCase();
-
-        if (fileName.endsWith(".json")) {
-            return new ObjectMapper();
-        } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
-            return new ObjectMapper(new YAMLFactory());
-        } else {
-            throw new IllegalArgumentException("Wrong format:" + fileName);
-        }
     }
 }

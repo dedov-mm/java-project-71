@@ -21,8 +21,8 @@ public class DifferTest {
 
     @Test
     void testGenerate() throws Exception {
-        var file1 = getFixturePath("file1.json");
-        var file2 = getFixturePath("file2.json");
+        var file1 = getFixturePath("filepath1.json");
+        var file2 = getFixturePath("filepath2.json");
 
         var actual = Differ.generate(file1, file2);
         var expectedPath = getFixturePath("result.txt");
