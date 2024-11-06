@@ -1,12 +1,12 @@
 package hexlet.code.formatters;
 
 import hexlet.code.DiffEntry;
-import hexlet.code.Formatter;
+import hexlet.code.FormatterSelection;
 
 import java.util.List;
 import java.util.Map;
 
-public class PlainTextFormatter implements Formatter {
+public class PlainTextFormatter implements FormatterSelection {
     @Override
     public String format(List<DiffEntry> diff) {
         StringBuilder result = new StringBuilder();
