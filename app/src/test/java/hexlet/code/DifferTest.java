@@ -23,17 +23,20 @@ public class DifferTest {
     void testGenerate() throws Exception {
         var filepath1 = getFixturePath("filepath1.json");
         var filepath2 = getFixturePath("filepath2.json");
-        var actual = Differ.generate(filepath1, filepath2);
 
-        String expected = """
-{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}""";
+        String actual = Differ.generate(filepath1, filepath2, "stylish");
+        String expected = Files.readString(getFixturePath("resultstylish.txt"));
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testGenerateNested() throws Exception {
+        var filepath1 = getFixturePath("filenested1.json");
+        var filepath2 = getFixturePath("filenested2.json");
+
+        String actual = Differ.generate(filepath1, filepath2, "stylish");
+        String expected = readFixture("resultnestedstylish.txt");
 
         assertEquals(expected, actual);
     }

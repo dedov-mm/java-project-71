@@ -3,7 +3,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-filepath*.*
 !src/test/resources/fixtures/*
 
 ### IntelliJ IDEA ###
