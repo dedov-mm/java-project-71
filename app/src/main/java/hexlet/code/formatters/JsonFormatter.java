@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JsonFormatter implements FormatterSelection {
-
     private final ObjectMapper objectMapper = new ObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT) // Включаем pretty-print
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true); // Сортировка полей по ключам
