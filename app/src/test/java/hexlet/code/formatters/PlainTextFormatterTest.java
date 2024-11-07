@@ -1,6 +1,6 @@
-package hexlet.code;
+package hexlet.code.formatters;
 
-import hexlet.code.formatters.PlainTextFormatter;
+import hexlet.code.DiffEntry;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
