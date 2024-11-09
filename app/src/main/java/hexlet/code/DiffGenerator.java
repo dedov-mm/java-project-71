@@ -17,32 +17,25 @@ public class DiffGenerator {
             throw new IOException("Files do not exist");
         }
 
-        // Парсим файлы в Map
         Map<String, Object> map1 = Parser.parse(path1);
         Map<String, Object> map2 = Parser.parse(path2);
 
-        // Собираем все ключи из обоих файлов
         Set<String> allKeys = new TreeSet<>();
         allKeys.addAll(map1.keySet());
         allKeys.addAll(map2.keySet());
 
-        // Формируем список изменений
         List<DiffEntry> diff = new ArrayList<>();
         for (String key : allKeys) {
             if (!map1.containsKey(key)) {
-                // Добавлено новое значение
                 diff.add(new DiffEntry(key, null, map2.get(key), DiffEntry.DiffType.ADDED));
             } else if (!map2.containsKey(key)) {
-                // Удалено существующее значение
                 diff.add(new DiffEntry(key, map1.get(key), null, DiffEntry.DiffType.REMOVED));
             } else {
                 Object value1 = map1.get(key);
                 Object value2 = map2.get(key);
                 if (Objects.equals(value1, value2)) {
-                    // Значение не изменилось
                     diff.add(new DiffEntry(key, value1, value2, DiffEntry.DiffType.UNCHANGED));
                 } else {
-                    // Значение изменилось
                     diff.add(new DiffEntry(key, value1, value2, DiffEntry.DiffType.CHANGED));
                 }
             }
