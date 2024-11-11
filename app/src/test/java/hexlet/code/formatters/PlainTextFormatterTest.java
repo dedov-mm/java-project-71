@@ -26,7 +26,7 @@ class PlainTextFormatterTest {
     private List<DiffEntry> readDiffFixture(String fileName) throws Exception {
         Path path = getFixturePath(fileName);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(Files.newInputStream(path), new TypeReference<List<DiffEntry>>() {});
+        return mapper.readValue(Files.newInputStream(path), new TypeReference<List<DiffEntry>>() { });
     }
 
     private static Path getFixturePath(String fileName) {
