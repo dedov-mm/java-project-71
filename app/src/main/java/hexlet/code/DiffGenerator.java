@@ -11,7 +11,6 @@ import java.util.TreeSet;
 import java.util.ArrayList;
 
 public class DiffGenerator {
-
     public static List<DiffEntry> generateDiff(Path path1, Path path2) throws IOException {
         if (!Files.exists(path1) || !Files.exists(path2)) {
             throw new IOException("Files do not exist");
