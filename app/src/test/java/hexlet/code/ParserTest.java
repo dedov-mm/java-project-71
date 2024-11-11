@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class ParserTest {
             throw new IllegalArgumentException("Unsupported file format: " + fileName);
         }
 
-        return mapper.readValue(path.toFile(), new TypeReference<Map<String, Object>>() {});
+        return mapper.readValue(path.toFile(), new TypeReference<Map<String, Object>>() { });
     }
 
     @Test

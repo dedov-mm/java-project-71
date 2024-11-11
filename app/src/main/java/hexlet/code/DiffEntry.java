@@ -1,5 +1,8 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DiffEntry {
     private final String key;
     private final Object oldValue;
@@ -10,7 +13,11 @@ public class DiffEntry {
         ADDED, REMOVED, CHANGED, UNCHANGED
     }
 
-    public DiffEntry(String key, Object oldValue, Object newValue, DiffType type) {
+    @JsonCreator
+    public DiffEntry(@JsonProperty("key") String key,
+                     @JsonProperty("oldValue") Object oldValue,
+                     @JsonProperty("newValue") Object newValue,
+                     @JsonProperty("type") DiffType type) {
         this.key = key;
         this.oldValue = oldValue;
         this.newValue = newValue;
