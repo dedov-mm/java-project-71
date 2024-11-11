@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class PlainTextFormatter implements FormatterSelection {
     @Override
-    public String format(List<DiffEntry> diff) {
+    public final String format(List<DiffEntry> diff) {
         StringBuilder result = new StringBuilder();
         for (DiffEntry entry : diff) {
             String key = entry.getKey();

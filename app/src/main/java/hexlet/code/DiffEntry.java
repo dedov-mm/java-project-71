@@ -17,19 +17,19 @@ public class DiffEntry {
         this.type = type;
     }
 
-    public String getKey() {
+    public final String getKey() {
         return key;
     }
 
-    public Object getOldValue() {
+    public final Object getOldValue() {
         return oldValue;
     }
 
-    public Object getNewValue() {
+    public final Object getNewValue() {
         return newValue;
     }
 
-    public DiffType getType() {
+    public final DiffType getType() {
         return type;
     }
 }

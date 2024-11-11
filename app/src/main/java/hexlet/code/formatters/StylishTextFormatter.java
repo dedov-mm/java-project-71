@@ -7,7 +7,7 @@ import java.util.List;
 
 public class StylishTextFormatter implements FormatterSelection {
     @Override
-    public String format(List<DiffEntry> diff) {
+    public final String format(List<DiffEntry> diff) {
         StringBuilder result = new StringBuilder("{\n");
         for (DiffEntry entry : diff) {
             switch (entry.getType()) {

@@ -30,7 +30,7 @@ public class App implements Callable<Integer> {
     private String format = "stylish";
 
     @Override
-    public Integer call() throws Exception {
+    public final Integer call() throws Exception {
         var diff = Differ.generate(filepath1, filepath2, format);
         System.out.println(diff);
         return 0;

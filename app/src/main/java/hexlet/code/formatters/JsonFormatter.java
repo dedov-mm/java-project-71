@@ -17,7 +17,7 @@ public class JsonFormatter implements FormatterSelection {
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true); // Сортировка полей по ключам
 
     @Override
-    public String format(List<DiffEntry> diff) {
+    public final String format(List<DiffEntry> diff) {
         // Сортируем и форматируем diff
         List<Map<String, Object>> formattedDiff = diff.stream()
                 .sorted((entry1, entry2) -> entry1.getKey().compareTo(entry2.getKey())) // Сортировка по ключу
