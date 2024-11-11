@@ -27,8 +27,8 @@ public class DifferTest {
 
     @Test
     void testGenerate() throws Exception {
-        var filepath1 = getFixturePath("filepath1.json");
-        var filepath2 = getFixturePath("filepath2.json");
+        var filepath1 = getFixturePath("filepath1.json").toString();
+        var filepath2 = getFixturePath("filepath2.json").toString();
 
         String actual = Differ.generate(filepath1, filepath2, "stylish");
         String expected = Files.readString(getFixturePath("resultstylish.txt"));
@@ -38,8 +38,8 @@ public class DifferTest {
 
     @Test
     void testGenerateNested() throws Exception {
-        var filepath1 = getFixturePath("filenested1.json");
-        var filepath2 = getFixturePath("filenested2.json");
+        var filepath1 = getFixturePath("filenested1.json").toString();
+        var filepath2 = getFixturePath("filenested2.json").toString();
 
         String actual = Differ.generate(filepath1, filepath2, "stylish");
         String expected = readFixture("resultnestedstylish.txt");
@@ -49,10 +49,10 @@ public class DifferTest {
 
     @Test
     void testGenerateJsonFormat() throws Exception {
-        Path file1Path = getFixturePath("filenested1.json");
-        Path file2Path = getFixturePath("filenested2.json");
+        var file1Path = getFixturePath("filenested1.json").toString();
+        var file2Path = getFixturePath("filenested2.json").toString();
 
-        String actualJsonOutputStr = Differ.generate(file1Path, file2Path, "json");  // Передаем Path, а не String
+        String actualJsonOutputStr = Differ.generate(file1Path, file2Path, "json");
 
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> actualJsonOutput = objectMapper.readValue(
@@ -73,5 +73,16 @@ public class DifferTest {
                 .collect(Collectors.toList());
 
         assertEquals(sortedExpected, sortedActual);
+    }
+
+    @Test
+    void testGenerateDefault() throws Exception {
+        var filepath1 = getFixturePath("filepath1.json").toString();
+        var filepath2 = getFixturePath("filepath2.json").toString();
+
+        String actual = Differ.generate(filepath1, filepath2);
+        String expected = Files.readString(getFixturePath("resultstylish.txt")).trim();
+
+        assertEquals(expected, actual);
     }
 }
