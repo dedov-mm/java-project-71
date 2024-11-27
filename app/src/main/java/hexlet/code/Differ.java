@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 public class Differ {
     public static String generate(String filepath1, String filepath2, String format) throws Exception {
@@ -15,7 +16,10 @@ public class Differ {
             throw new IOException("One or both files do not exist.\nPaths:\n" + path1 + "\n" + path2);
         }
 
-        List<DiffEntry> diff = DiffGenerator.generateDiff(path1, path2);
+        Map<String, Object> map1 = Parser.parse(path1);
+        Map<String, Object> map2 = Parser.parse(path2);
+
+        List<DiffEntry> diff = DiffGenerator.generateDiff(map1, map2);
         FormatterSelection formatter = Formatter.getFormatter(format);
         return formatter.format(diff);
     }

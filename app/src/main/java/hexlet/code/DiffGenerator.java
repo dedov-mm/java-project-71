@@ -1,8 +1,5 @@
 package hexlet.code;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -11,14 +8,7 @@ import java.util.TreeSet;
 import java.util.ArrayList;
 
 public class DiffGenerator {
-    public static List<DiffEntry> generateDiff(Path path1, Path path2) throws Exception {
-        if (!Files.exists(path1) || !Files.exists(path2)) {
-            throw new IOException("Files do not exist");
-        }
-
-        Map<String, Object> map1 = Parser.parse(path1);
-        Map<String, Object> map2 = Parser.parse(path2);
-
+    public static List<DiffEntry> generateDiff(Map<String, Object> map1, Map<String, Object> map2) {
         Set<String> allKeys = new TreeSet<>();
         allKeys.addAll(map1.keySet());
         allKeys.addAll(map2.keySet());
