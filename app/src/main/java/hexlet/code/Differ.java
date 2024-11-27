@@ -12,7 +12,7 @@ public class Differ {
         Path path2 = Paths.get(filepath2).toAbsolutePath();
 
         if (!Files.exists(path1) || !Files.exists(path2)) {
-            throw new IOException("One or both files do not exist.");
+            throw new IOException("One or both files do not exist.\nPaths:\n" + path1 + "\n" + path2);
         }
 
         List<DiffEntry> diff = DiffGenerator.generateDiff(path1, path2);
