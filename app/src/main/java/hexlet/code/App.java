@@ -12,6 +12,9 @@ import java.util.concurrent.Callable;
         version = "gendiff 1.0",
         description = "Compares two configuration files and shows a difference.")
 public class App implements Callable<Integer> {
+    private static final int SUCCESS_EXIT_CODE = 0;
+    private static final int ERROR_EXIT_CODE = 1;
+
     public static void main(String[] args) {
         int exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
@@ -36,8 +39,8 @@ public class App implements Callable<Integer> {
             System.out.println(diff);
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            return 1;
+            return ERROR_EXIT_CODE;
         }
-        return 0;
+        return SUCCESS_EXIT_CODE;
     }
 }
