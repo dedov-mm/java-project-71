@@ -30,9 +30,14 @@ public class App implements Callable<Integer> {
     private String format = "stylish";
 
     @Override
-    public final Integer call() throws Exception {
-        var diff = Differ.generate(filepath1, filepath2, format);
-        System.out.println(diff);
+    public final Integer call() {
+        try {
+            var diff = Differ.generate(filepath1, filepath2, format);
+            System.out.println(diff);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
+        }
         return 0;
     }
 }

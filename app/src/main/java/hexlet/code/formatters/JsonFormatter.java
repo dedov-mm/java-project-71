@@ -1,6 +1,5 @@
 package hexlet.code.formatters;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import hexlet.code.DiffEntry;
@@ -17,8 +16,7 @@ public class JsonFormatter implements FormatterSelection {
             .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true); // Сортировка полей по ключам
 
     @Override
-    public final String format(List<DiffEntry> diff) {
-        // Сортируем и форматируем diff
+    public final String format(List<DiffEntry> diff) throws Exception {
         List<Map<String, Object>> formattedDiff = diff.stream()
                 .sorted((entry1, entry2) -> entry1.getKey().compareTo(entry2.getKey())) // Сортировка по ключу
                 .map(entry -> {
@@ -32,10 +30,6 @@ public class JsonFormatter implements FormatterSelection {
                 })
                 .collect(Collectors.toList());
 
-        try {
-            return objectMapper.writeValueAsString(formattedDiff);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Error while formatting the JSON", e);
-        }
+        return objectMapper.writeValueAsString(formattedDiff);
     }
 }

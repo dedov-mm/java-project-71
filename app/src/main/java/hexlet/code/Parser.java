@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, Object> parse(Path filepath) throws IOException {
+    public static Map<String, Object> parse(Path filepath) throws Exception {
         String fileName = filepath.getFileName().toString().toLowerCase();
         ObjectMapper mapper;
 
