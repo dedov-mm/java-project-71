@@ -19,14 +19,10 @@ public class DiffGenerator {
                 diff.add(new DiffEntry(key, null, map2.get(key), DiffEntry.DiffType.ADDED));
             } else if (!map2.containsKey(key)) {
                 diff.add(new DiffEntry(key, map1.get(key), null, DiffEntry.DiffType.REMOVED));
-            } else {
-                Object value1 = map1.get(key);
-                Object value2 = map2.get(key);
-                if (Objects.equals(value1, value2)) {
-                    diff.add(new DiffEntry(key, value1, value2, DiffEntry.DiffType.UNCHANGED));
-                } else {
-                    diff.add(new DiffEntry(key, value1, value2, DiffEntry.DiffType.CHANGED));
-                }
+            } else if (Objects.equals(map1.get(key), map2.get(key))) {
+                diff.add(new DiffEntry(key, map1.get(key), map2.get(key), DiffEntry.DiffType.UNCHANGED));
+            } else if (!Objects.equals(map1.get(key), map2.get(key))) {
+                diff.add(new DiffEntry(key, map1.get(key), map2.get(key), DiffEntry.DiffType.CHANGED));
             }
         }
         return diff;

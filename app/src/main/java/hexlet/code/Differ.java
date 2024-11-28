@@ -21,6 +21,7 @@ public class Differ {
 
         List<DiffEntry> diff = DiffGenerator.generateDiff(map1, map2);
         FormatterSelection formatter = Formatter.getFormatter(format);
+
         return formatter.format(diff);
     }
 
