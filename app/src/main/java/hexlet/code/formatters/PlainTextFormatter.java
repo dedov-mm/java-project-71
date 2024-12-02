@@ -15,27 +15,35 @@ public class PlainTextFormatter implements FormatterSelection {
             switch (entry.getType()) {
                 case ADDED -> result.append("Property '").append(key)
                         .append("' was added with value: ")
-                        .append(formatValue(entry.getNewValue())).append("\n");
+                        .append(stringify(entry.getNewValue())).append("\n");
                 case REMOVED -> result.append("Property '").append(key).append("' was removed\n");
                 case CHANGED -> result.append("Property '").append(key)
                         .append("' was updated. From ")
-                        .append(formatValue(entry.getOldValue()))
+                        .append(stringify(entry.getOldValue()))
                         .append(" to ")
-                        .append(formatValue(entry.getNewValue())).append("\n");
+                        .append(stringify(entry.getNewValue())).append("\n");
                 default -> { }
             }
         }
         return result.toString().trim();
     }
 
-    private String formatValue(Object value) {
+    private static String stringify(Object value) {
         if (value == null) {
             return "null";
-        } else if (value instanceof String && !"[complex value]".equals(value)) {
+        }
+
+        if (value instanceof String) {
+            if (value.equals("[complex value]")) {
+                return (String) value;
+            }
             return "'" + value + "'";
-        } else if (value instanceof List || value instanceof Map) {
+        }
+
+        if (value instanceof Map || value instanceof List) {
             return "[complex value]";
         }
+
         return value.toString();
     }
 }
