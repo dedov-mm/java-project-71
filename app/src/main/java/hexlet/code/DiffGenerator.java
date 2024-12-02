@@ -9,8 +9,7 @@ import java.util.ArrayList;
 
 public class DiffGenerator {
     public static List<DiffEntry> generateDiff(Map<String, Object> map1, Map<String, Object> map2) {
-        Set<String> allKeys = new TreeSet<>();
-        allKeys.addAll(map1.keySet());
+        Set<String> allKeys = new TreeSet<>(map1.keySet());
         allKeys.addAll(map2.keySet());
 
         List<DiffEntry> diff = new ArrayList<>();

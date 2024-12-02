@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -18,10 +19,15 @@ public class ParserTest {
                 .toAbsolutePath().normalize();
     }
 
+    private static String readFileContent(String fileName) throws Exception {
+        Path path = getFixturePath(fileName);
+        return Files.readString(path);
+    }
+
     private static Map<String, Object> readExpectedMap(String fileName) throws Exception {
         Path path = getFixturePath(fileName);
-
         ObjectMapper mapper;
+
         if (fileName.endsWith(".json")) {
             mapper = new ObjectMapper();
         } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
@@ -35,8 +41,8 @@ public class ParserTest {
 
     @Test
     void testParseJson() throws Exception {
-        Path jsonFile = getFixturePath("filepath1.json");
-        Map<String, Object> actual = Parser.parse(jsonFile);
+        String jsonContent = readFileContent("filepath1.json");
+        Map<String, Object> actual = Parser.parse(jsonContent);
 
         var expected = readExpectedMap("filepath1.json");
 
@@ -45,8 +51,8 @@ public class ParserTest {
 
     @Test
     void testParseYaml() throws Exception {
-        Path yamlFile = getFixturePath("filepath1.yml");
-        Map<String, Object> actual = Parser.parse(yamlFile);
+        String yamlContent = readFileContent("filepath1.yml");
+        Map<String, Object> actual = Parser.parse(yamlContent);
 
         var expected = readExpectedMap("filepath1.yml");
 
@@ -55,10 +61,10 @@ public class ParserTest {
 
     @Test
     void testUnsupportedFormat() {
-        Path txtFile = Paths.get("app/src/test/resources/fixtures/filepath1.txt");
+        String invalidContent = "filepath1.txt";
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            Parser.parse(txtFile);
+            Parser.parse(invalidContent);
         });
 
         assertEquals("Unsupported format: filepath1.txt", exception.getMessage());

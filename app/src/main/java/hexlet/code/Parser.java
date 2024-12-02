@@ -9,18 +9,18 @@ import java.nio.file.Path;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, Object> parse(Path filepath) throws Exception {
-        String fileName = filepath.getFileName().toString().toLowerCase();
-        ObjectMapper mapper;
+    public static Map<String, Object> parse(String content) throws Exception {
+        ObjectMapper jsonMapper = new ObjectMapper();
+        ObjectMapper yamlMapper = new ObjectMapper(new YAMLFactory());
 
-        if (fileName.endsWith(".json")) {
-            mapper = new ObjectMapper();
-        } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
-            mapper = new ObjectMapper(new YAMLFactory());
-        } else {
-            throw new IllegalArgumentException("Unsupported format: " + fileName);
+        try {
+            return jsonMapper.readValue(content, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            try {
+                return yamlMapper.readValue(content, new TypeReference<Map<String, Object>>() {});
+            } catch (Exception yamlException) {
+                throw new IllegalArgumentException("Unsupported format: " + content);
+            }
         }
-
-        return mapper.readValue(Files.newInputStream(filepath), new TypeReference<Map<String, Object>>() { });
     }
 }
