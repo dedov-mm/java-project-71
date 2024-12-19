@@ -3,7 +3,8 @@ package hexlet.code;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,67 +26,34 @@ public class DifferTest {
         return Files.readString(path).trim();
     }
 
-    @Test
-    void testGeneratePlainFromJson() throws Exception {
-        var filepath1 = getFixturePath("filenested1.json").toString();
-        var filepath2 = getFixturePath("filenested2.json").toString();
+    @ParameterizedTest
+    @CsvSource({
+            "filenested1.json, filenested2.json, plain, resultplain.txt",
+            "filenested1.yml, filenested2.yml, plain, resultplain.txt",
+            "filenested1.json, filenested2.json, stylish, resultnestedstylish.txt",
+            "filenested1.yml, filenested2.yml, stylish, resultnestedstylish.txt",
+            "filenested1.json, filenested2.json, json, resultjson.json",
+            "filenested1.yml, filenested2.yml, json, resultjson.json"
+    })
+    public void generateTest(String file1, String file2, String format, String expectedFile) throws Exception {
+        var filePath1 = getFixturePath(file1).toString();
+        var filePath2 = getFixturePath(file2).toString();
 
-        String actual = Differ.generate(filepath1, filepath2, "plain");
-        String expected = readFixture("resultplain.txt");
+        String actual = Differ.generate(filePath1, filePath2, format);
+        String expected = readFixture(expectedFile);
 
-        assertEquals(expected, actual);
-    }
+        if ("json".equals(format)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode actualJson = objectMapper.readTree(actual);
+            JsonNode expectedJson = objectMapper.readTree(expected);
 
-    @Test
-    void testGeneratePlainFromYml() throws Exception {
-        var filepath1 = getFixturePath("filenested1.yml").toString();
-        var filepath2 = getFixturePath("filenested2.yml").toString();
+            normalizeJson(actualJson);
+            normalizeJson(expectedJson);
 
-        String actual = Differ.generate(filepath1, filepath2, "plain");
-        String expected = readFixture("resultplain.txt");
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGenerateStylishFromJson() throws Exception {
-        var filepath1 = getFixturePath("filenested1.json").toString();
-        var filepath2 = getFixturePath("filenested2.json").toString();
-
-        String actual = Differ.generate(filepath1, filepath2, "stylish");
-        String expected = readFixture("resultnestedstylish.txt");
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGenerateStylishFromYml() throws Exception {
-        var filepath1 = getFixturePath("filenested1.yml").toString();
-        var filepath2 = getFixturePath("filenested2.yml").toString();
-
-        String actual = Differ.generate(filepath1, filepath2, "stylish");
-        String expected = readFixture("resultnestedstylish.txt");
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGenerateJsonFromJson() throws Exception {
-        var file1Path = getFixturePath("filenested1.json").toString();
-        var file2Path = getFixturePath("filenested2.json").toString();
-
-        String actualJsonOutputStr = Differ.generate(file1Path, file2Path, "json");
-        String expectedJsonOutputStr = readFixture("resultjson.json");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        JsonNode actualJson = objectMapper.readTree(actualJsonOutputStr);
-        JsonNode expectedJson = objectMapper.readTree(expectedJsonOutputStr);
-
-        normalizeJson(actualJson);
-        normalizeJson(expectedJson);
-
-        assertEquals(actualJson, expectedJson);
+            assertEquals(actualJson, expectedJson);
+        } else {
+            assertEquals(expected, actual);
+        }
     }
 
     private void normalizeJson(JsonNode node) {
@@ -114,45 +82,5 @@ public class DifferTest {
         for (JsonNode element : list) {
             arrayNode.add(element);
         }
-    }
-
-    @Test
-    void testGenerateJsonFromYml() throws Exception {
-        var filePath1 = getFixturePath("filenested1.yml").toString();
-        var filePath2 = getFixturePath("filenested2.yml").toString();
-
-        String actualJsonOutputStr = Differ.generate(filePath1, filePath2, "json");
-        String expectedJsonOutputStr = readFixture("resultjson.json");
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode actualJson = objectMapper.readTree(actualJsonOutputStr);
-        JsonNode expectedJson = objectMapper.readTree(expectedJsonOutputStr);
-
-        normalizeJson(actualJson);
-        normalizeJson(expectedJson);
-
-        assertEquals(actualJson, expectedJson);
-    }
-
-    @Test
-    void testGenerateDefaultFromJson() throws Exception {
-        var filepath1 = getFixturePath("filepath1.json").toString();
-        var filepath2 = getFixturePath("filepath2.json").toString();
-
-        String actual = Differ.generate(filepath1, filepath2);
-        String expected = Files.readString(getFixturePath("resultstylish.txt")).trim();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGenerateDefaultFromYml() throws Exception {
-        var filepath1 = getFixturePath("filepath1.yml").toString();
-        var filepath2 = getFixturePath("filepath2.yml").toString();
-
-        String actual = Differ.generate(filepath1, filepath2);
-        String expected = Files.readString(getFixturePath("resultstylish.txt")).trim();
-
-        assertEquals(expected, actual);
     }
 }
