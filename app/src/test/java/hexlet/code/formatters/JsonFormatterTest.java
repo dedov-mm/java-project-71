@@ -5,8 +5,6 @@ import hexlet.code.DiffEntry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -46,7 +44,6 @@ class JsonFormatterTest {
         String expectedJson = readFixture("expected_single_diff.json");
         String actualJson = jsonFormatter.format(diffList);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         assertEquals(objectMapper.readTree(expectedJson), objectMapper.readTree(actualJson));
     }
 
@@ -59,7 +56,6 @@ class JsonFormatterTest {
         String expectedJson = readFixture("expected_multiple_diff.json");
         String actualJson = jsonFormatter.format(diffList);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         assertEquals(objectMapper.readTree(expectedJson), objectMapper.readTree(actualJson));
     }
 
