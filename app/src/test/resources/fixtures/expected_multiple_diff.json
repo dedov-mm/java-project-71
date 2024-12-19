@@ -1,0 +1,14 @@
+[
+  {
+    "key": "key1",
+    "oldValue": "oldValue1",
+    "newValue": "newValue1",
+    "type": "CHANGED"
+  },
+  {
+    "key": "key2",
+    "oldValue": "oldValue2",
+    "newValue": "newValue2",
+    "type": "ADDED"
+  }
+]
