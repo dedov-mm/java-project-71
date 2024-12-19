@@ -1,60 +1,59 @@
 package hexlet.code.formatters;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.DiffEntry;
-import hexlet.code.FormatterSelection;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static hexlet.code.DiffEntry.DiffType.ADDED;
+import static hexlet.code.DiffEntry.DiffType.CHANGED;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JsonFormatterTest {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private JsonFormatter jsonFormatter;
+    private ObjectMapper objectMapper;
 
-    @Test
-    void testFormatWithChanges() throws Exception {
-        FormatterSelection formatter = new JsonFormatter();
-
-        List<DiffEntry> diff = List.of(
-                new DiffEntry("key1", "value1", null, DiffEntry.DiffType.REMOVED),
-                new DiffEntry("key2", null, "value2", DiffEntry.DiffType.ADDED),
-                new DiffEntry("key3", "oldValue", "newValue", DiffEntry.DiffType.CHANGED)
-        );
-
-        String expectedJson = """
-                [
-                    {"key": "key1", "type": "removed", "oldValue": "value1", "newValue": null},
-                    {"key": "key2", "type": "added", "oldValue": null, "newValue": "value2"},
-                    {"key": "key3", "type": "changed", "oldValue": "oldValue", "newValue": "newValue"}
-                ]
-                """;
-
-        JsonNode expectedTree = objectMapper.readTree(expectedJson);
-        JsonNode actualTree = objectMapper.readTree(formatter.format(diff));
-
-        assertEquals(expectedTree, actualTree);
+    @BeforeEach
+    void setUp() {
+        jsonFormatter = new JsonFormatter();
+        objectMapper = new ObjectMapper();
     }
 
     @Test
-    void testFormatWithNoChanges() throws Exception {
-        FormatterSelection formatter = new JsonFormatter();
+    void testFormatSingleDiffEntry() throws Exception {
+        DiffEntry diffEntry = new DiffEntry("key1", "oldValue1", "newValue1", CHANGED);
+        List<DiffEntry> diffList = Arrays.asList(diffEntry);
 
-        List<DiffEntry> diff = List.of(
-                new DiffEntry("key1", "value1", "value1", DiffEntry.DiffType.UNCHANGED)
-        );
+        String expectedJson = "[{\"key\":\"key1\",\"oldValue\":\"oldValue1\",\"newValue\":\"newValue1\",\"type\":\"CHANGED\"}]";
+        String actualJson = jsonFormatter.format(diffList);
 
-        String expectedJson = """
-                [
-                    {"key": "key1", "type": "unchanged", "oldValue": "value1", "newValue": "value1"}
-                ]
-                """;
+        assertEquals(expectedJson, actualJson);
+    }
 
-        JsonNode expectedTree = objectMapper.readTree(expectedJson);
-        JsonNode actualTree = objectMapper.readTree(formatter.format(diff));
+    @Test
+    void testFormatMultipleDiffEntries() throws Exception {
+        DiffEntry diffEntry1 = new DiffEntry("key1", "oldValue1", "newValue1", CHANGED);
+        DiffEntry diffEntry2 = new DiffEntry("key2", "oldValue2", "newValue2", ADDED);
+        List<DiffEntry> diffList = Arrays.asList(diffEntry1, diffEntry2);
 
-        assertEquals(expectedTree, actualTree);
+        String expectedJson = "[{\"key\":\"key1\",\"oldValue\":\"oldValue1\",\"newValue\":\"newValue1\",\"type\":\"CHANGED\"}," +
+                "{\"key\":\"key2\",\"oldValue\":\"oldValue2\",\"newValue\":\"newValue2\",\"type\":\"ADDED\"}]";
+        String actualJson = jsonFormatter.format(diffList);
+
+        assertEquals(expectedJson, actualJson);
+    }
+
+    @Test
+    void testFormatEmptyDiffList() throws Exception {
+        List<DiffEntry> diffList = Arrays.asList();
+
+        String expectedJson = "[]";
+        String actualJson = jsonFormatter.format(diffList);
+
+        assertEquals(expectedJson, actualJson);
     }
 }
