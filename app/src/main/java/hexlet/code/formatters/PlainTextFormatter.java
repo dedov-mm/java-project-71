@@ -34,9 +34,6 @@ public class PlainTextFormatter implements FormatterSelection {
         }
 
         if (value instanceof String) {
-            if (value.equals("[complex value]")) {
-                return (String) value;
-            }
             return "'" + value + "'";
         }
 
