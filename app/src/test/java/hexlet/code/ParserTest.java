@@ -42,7 +42,7 @@ public class ParserTest {
     @Test
     void testParseJson() throws Exception {
         String jsonContent = readFileContent("filepath1.json");
-        Map<String, Object> actual = Parser.parse(jsonContent);
+        Map<String, Object> actual = Parser.parse(jsonContent, "json");
 
         var expected = readExpectedMap("filepath1.json");
 
@@ -52,7 +52,7 @@ public class ParserTest {
     @Test
     void testParseYaml() throws Exception {
         String yamlContent = readFileContent("filepath1.yml");
-        Map<String, Object> actual = Parser.parse(yamlContent);
+        Map<String, Object> actual = Parser.parse(yamlContent, "yaml");
 
         var expected = readExpectedMap("filepath1.yml");
 
@@ -62,11 +62,12 @@ public class ParserTest {
     @Test
     void testUnsupportedFormat() {
         String invalidContent = "filepath1.txt";
+        String unsupportedFormat = "txt";
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            Parser.parse(invalidContent);
+            Parser.parse(invalidContent, unsupportedFormat);
         });
 
-        assertEquals("Unsupported format: filepath1.txt", exception.getMessage());
+        assertEquals("Unsupported format: txt", exception.getMessage());
     }
 }

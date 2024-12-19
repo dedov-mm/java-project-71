@@ -19,8 +19,11 @@ public class Differ {
         String content1 = Files.readString(path1);
         String content2 = Files.readString(path2);
 
-        Map<String, Object> map1 = Parser.parse(content1);
-        Map<String, Object> map2 = Parser.parse(content2);
+        String format1 = getFileFormat(filepath1);
+        String format2 = getFileFormat(filepath2);
+
+        Map<String, Object> map1 = Parser.parse(content1, format1);
+        Map<String, Object> map2 = Parser.parse(content2, format2);
 
         List<DiffEntry> diff = DiffGenerator.generateDiff(map1, map2);
         FormatterSelection formatter = Formatter.getFormatter(format);
@@ -30,5 +33,14 @@ public class Differ {
 
     public static String generate(String filepath1, String filepath2) throws Exception {
         return generate(filepath1, filepath2, "stylish");
+    }
+
+    private static String getFileFormat(String filepath) {
+        String extension = filepath.substring(filepath.lastIndexOf('.') + 1).toLowerCase();
+        return switch (extension) {
+            case "json" -> "json";
+            case "yaml", "yml" -> "yaml";
+            default -> throw new IllegalArgumentException("Unsupported file format: " + filepath);
+        };
     }
 }
