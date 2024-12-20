@@ -26,9 +26,6 @@ public class DifferTest {
         return Files.readString(path).trim();
     }
 
-    /*
-    Параметризированный тест для всех форматов и типов
-     */
     @ParameterizedTest
     @CsvSource({
         "filenested1.json, filenested2.json, plain, resultplain.txt",
@@ -38,7 +35,7 @@ public class DifferTest {
         "filenested1.json, filenested2.json, json, resultjson.json",
         "filenested1.yml, filenested2.yml, json, resultjson.json"
     })
-    public void generateTest(String file1, String file2, String format, String expectedFile) throws Exception {
+    public final void generateTest(String file1, String file2, String format, String expectedFile) throws Exception {
         var filePath1 = getFixturePath(file1).toString();
         var filePath2 = getFixturePath(file2).toString();
 
