@@ -26,14 +26,17 @@ public class DifferTest {
         return Files.readString(path).trim();
     }
 
+    /*
+    Параметризированный тест для всех форматов и типов
+     */
     @ParameterizedTest
     @CsvSource({
-            "filenested1.json, filenested2.json, plain, resultplain.txt",
-            "filenested1.yml, filenested2.yml, plain, resultplain.txt",
-            "filenested1.json, filenested2.json, stylish, resultnestedstylish.txt",
-            "filenested1.yml, filenested2.yml, stylish, resultnestedstylish.txt",
-            "filenested1.json, filenested2.json, json, resultjson.json",
-            "filenested1.yml, filenested2.yml, json, resultjson.json"
+        "filenested1.json, filenested2.json, plain, resultplain.txt",
+        "filenested1.yml, filenested2.yml, plain, resultplain.txt",
+        "filenested1.json, filenested2.json, stylish, resultnestedstylish.txt",
+        "filenested1.yml, filenested2.yml, stylish, resultnestedstylish.txt",
+        "filenested1.json, filenested2.json, json, resultjson.json",
+        "filenested1.yml, filenested2.yml, json, resultjson.json"
     })
     public void generateTest(String file1, String file2, String format, String expectedFile) throws Exception {
         var filePath1 = getFixturePath(file1).toString();
